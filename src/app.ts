@@ -53,7 +53,7 @@ const runServer = async () => {
         reply.send('NOK')
     })
     
-    fastify.listen({ port: 3000 }, (err, address) => {
+    fastify.listen({ port: 3000, host: '0.0.0.0' }, (err, address) => {
         if (err) throw err
         console.info(`Server is running on ${address}`)
     })
