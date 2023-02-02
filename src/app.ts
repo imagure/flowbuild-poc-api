@@ -9,8 +9,8 @@ const runServer = async () => {
 
     fastify.register(fastifyRedis, { 
         host: `${process.env.REDIS_HOST || 'localhost'}`, 
-        port: 6379,
-        password: 'eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81'
+        port: parseInt(process.env.REDIS_PORT || '6379', 10),
+        password: process.env.REDIS_PASSWORD || 'eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81'
     })
 
     const { producer } = await connect()
