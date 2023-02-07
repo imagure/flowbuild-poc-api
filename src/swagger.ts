@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify"
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUI from '@fastify/swagger-ui'
+import { envs } from "./configs/env"
 
 export const swagger = async(fastify: FastifyInstance) => {
     await fastify.register(fastifySwagger, {
@@ -10,12 +11,13 @@ export const swagger = async(fastify: FastifyInstance) => {
                 description: 'Testing Flowbuild with Kafka',
                 version: '0.1.0'
             },
-            host: 'localhost',
+            host: `${envs.SERVER_HOST==='localhost' ? `${envs.SERVER_HOST}:${envs.SERVER_PORT}` : envs.SERVER_HOST}`,
             schemes: ['http'],
             consumes: ['application/json'],
             produces: ['application/json'],
             tags: [
                 { name: 'Health', description: 'Health Check' },
+                { name: 'Auth', description: 'API system authentication' },
                 { name: 'Workflow', description: 'Workflow CRUD operations' },
                 { name: 'Process', description: 'Process related operations' }
             ],
@@ -28,6 +30,14 @@ export const swagger = async(fastify: FastifyInstance) => {
                         blueprint_spec: { type: 'object' }
                     },
                     required: ['name', 'description', 'blueprint_spec']
+                }
+            },
+            securityDefinitions: {
+                BearerToken: {
+                    description: 'Authorization header token, sample: "Bearer #TOKEN#"',
+                    type: "apiKey",
+                    name: 'Authorization',
+                    in: 'header'
                 }
             }
         }

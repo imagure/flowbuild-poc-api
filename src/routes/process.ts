@@ -14,6 +14,7 @@ async function router(fastify: FastifyInstance, options: FastifyPluginOptions, d
         method: 'POST',
         url: '/start/:workflow_name',
         schema: {
+            security: [{ BearerToken: [] }],
             tags: ['Process'],
             params: {
                 type: 'object',

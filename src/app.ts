@@ -1,10 +1,13 @@
 import Fastify from 'fastify'
 import { connect } from './kafka'
+import fastifyCors from '@fastify/cors'
+import fastifyAuth from '@fastify/auth'
 import fastifyRedis from '@fastify/redis'
 import { envs } from './configs/env'
 import {
     wf as wf_router,
-    pr as pr_router
+    pr as pr_router,
+    auth as auth_router
 } from './routes'
 import { swagger } from './swagger'
 
@@ -14,6 +17,12 @@ const runServer = async () => {
     })
     
     swagger(fastify)
+
+    fastify.register(fastifyAuth)
+
+    await fastify.register(fastifyCors, { 
+        origin: "*"
+    })
 
     fastify.register(fastifyRedis, { 
         host: envs.REDIS_HOST, 
@@ -27,11 +36,11 @@ const runServer = async () => {
         reply.send('OK')
     })
 
+    fastify.register(auth_router, { prefix: '/auth' })
     fastify.register(wf_router, { prefix: '/workflow' })
-
     fastify.register(pr_router, { prefix: '/process', producer })
 
-    fastify.listen({ port: 3000, host: '0.0.0.0' }, (err, address) => {
+    fastify.listen({ port: envs.SERVER_PORT, host: '0.0.0.0' }, (err, address) => {
         if (err) throw err
         console.info(`Server is running on ${address}`)
     })
