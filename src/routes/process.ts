@@ -13,6 +13,18 @@ async function router(fastify: FastifyInstance, options: FastifyPluginOptions, d
     fastify.route({
         method: 'POST',
         url: '/start/:workflow_name',
+        schema: {
+            tags: ['Process'],
+            params: {
+                type: 'object',
+                properties: {
+                    workflow_name: { type: 'string' }
+                }
+            },
+            body: {
+                type: 'object'
+            }
+        },
         handler: start
     })
 
