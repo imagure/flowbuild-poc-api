@@ -1,8 +1,10 @@
 import { Kafka } from 'kafkajs'
+import { envs } from '../configs/env'
+import { v4 as uuid } from 'uuid'
 
 const kafka = new Kafka({
-  clientId: `flowbuild-api-${Math.floor(Math.random()*100000)}`,
-  brokers: [`${process.env.BROKER_HOST || 'localhost'}:9092`]
+  clientId: `flowbuild-api-${uuid()}`,
+  brokers: [`${envs.BROKER_HOST}:${envs.BROKER_PORT}`]
 })
 
 const producer = kafka.producer()

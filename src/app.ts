@@ -1,6 +1,8 @@
 import Fastify from 'fastify'
 import { connect } from './kafka'
 import fastifyRedis from '@fastify/redis'
+import { envs } from './configs/env'
+import { Workflow } from './types'
 
 const runServer = async () => {
     const fastify = Fastify({
@@ -8,9 +10,9 @@ const runServer = async () => {
     })
 
     fastify.register(fastifyRedis, { 
-        host: `${process.env.REDIS_HOST || 'localhost'}`, 
-        port: parseInt(process.env.REDIS_PORT || '6379', 10),
-        password: process.env.REDIS_PASSWORD || 'eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81'
+        host: envs.REDIS_HOST, 
+        port: envs.REDIS_PORT,
+        password: envs.REDIS_PASSWORD
     })
 
     const { producer } = await connect()
@@ -20,24 +22,24 @@ const runServer = async () => {
     })
 
     fastify.get('/workflow/:name', async (request, reply) => {
-        const { name: workflow_name } = request.params as any
+        const { name: workflow_name } = request.params as { name: string}
         const { redis } = fastify
-        const data = await redis.get(workflow_name)
+        const data = await redis.get(`workflows:${workflow_name}`)
         reply.send(JSON.parse(data || '{}'))
     })
 
     fastify.post('/workflow/create', async (request, reply) => {
-        const { body } = request as any
+        const { body } = request as { body: Workflow }
         const { redis } = fastify
-        const response = await redis.set(body.name, JSON.stringify(body))
+        const response = await redis.set(`workflows:${body.name}`, JSON.stringify(body))
         reply.send(response)
     })
 
     fastify.post('/process/start/:workflow_name', async (request, reply) => {
-        const { workflow_name } = request.params as any
-        const { body } = request as any
+        const { workflow_name } = request.params as { workflow_name: string }
+        const { body } = request as { body: {[key: string]: string} }
         const { redis } = fastify
-        const data = await redis.get(workflow_name)
+        const data = await redis.get(`workflows:${workflow_name}`)
         if(data) {
             const message = JSON.stringify({
                 input: body,
