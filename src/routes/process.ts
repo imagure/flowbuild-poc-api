@@ -8,7 +8,8 @@ async function router(fastify: FastifyInstance, options: FastifyPluginOptions, d
     const { producer } = options
 
     const { 
-        start 
+        start,
+        continue_
     } = pr(fastify, producer)
     
     fastify.route({
@@ -31,6 +32,28 @@ async function router(fastify: FastifyInstance, options: FastifyPluginOptions, d
             }
         },
         handler: start
+    })
+
+    fastify.route({
+        method: 'POST',
+        url: '/continue/:process_id',
+        preHandler: fastify.auth([
+            verifyJWT
+        ]),
+        schema: {
+            security: [{ BearerToken: [] }],
+            tags: ['Process'],
+            params: {
+                type: 'object',
+                properties: {
+                    process_id: { type: 'string' }
+                }
+            },
+            body: {
+                type: 'object'
+            }
+        },
+        handler: continue_
     })
 }
 

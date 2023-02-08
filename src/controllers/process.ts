@@ -23,6 +23,25 @@ const controllers = (fastify: FastifyInstance, producer: Producer) => {
             }
             reply.send('NOK')
         },
+        continue_: async (request: FastifyRequest, reply: FastifyReply) => {
+            const { process_id } = request.params as { process_id: string }
+            const { body, actor } = request as IActorRequest
+            const data = await redis.get(`process_history:${process_id}`)
+            if(data) {
+                const message = JSON.stringify({
+                    input: body,
+                    workflow_name: JSON.parse(data).workflow_name,
+                    process_id,
+                    actor
+                })
+                await producer.send({
+                    topic: 'orchestrator-continue-process-topic',
+                    messages: [{ value: message }]
+                })
+                reply.send('OK')
+            }
+            reply.send('NOK')
+        }
     }
 }
 
