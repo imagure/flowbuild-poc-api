@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify'
+import { verifyJWT } from '../auth/auth'
 import {
     pr
 } from '../controllers'
@@ -13,6 +14,9 @@ async function router(fastify: FastifyInstance, options: FastifyPluginOptions, d
     fastify.route({
         method: 'POST',
         url: '/start/:workflow_name',
+        preHandler: fastify.auth([
+            verifyJWT
+        ]),
         schema: {
             security: [{ BearerToken: [] }],
             tags: ['Process'],
@@ -28,8 +32,6 @@ async function router(fastify: FastifyInstance, options: FastifyPluginOptions, d
         },
         handler: start
     })
-
-    done()
 }
 
 export {

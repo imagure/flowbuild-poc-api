@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify'
-import { verifyJWT } from '../auth'
+import { verifyJWT } from '../auth/auth'
 import {
     wf
 } from '../controllers'
@@ -33,6 +33,9 @@ async function router(fastify: FastifyInstance, options: FastifyPluginOptions, d
     fastify.route({
         method: 'POST',
         url: '/create',
+        preHandler: fastify.auth([
+            verifyJWT
+        ]),
         schema: {
             security: [{ BearerToken: [] }],
             tags: ['Workflow'],
@@ -52,6 +55,9 @@ async function router(fastify: FastifyInstance, options: FastifyPluginOptions, d
     fastify.route({
         method: 'DELETE',
         url: '/:name',
+        preHandler: fastify.auth([
+            verifyJWT
+        ]),
         schema: {
             security: [{ BearerToken: [] }],
             tags: ['Workflow'],
@@ -64,8 +70,6 @@ async function router(fastify: FastifyInstance, options: FastifyPluginOptions, d
         },
         handler: deleteWorkflow
     })
-
-    done()
 }
 
 export {

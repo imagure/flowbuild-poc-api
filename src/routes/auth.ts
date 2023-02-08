@@ -13,14 +13,22 @@ async function router(fastify: FastifyInstance, options: FastifyPluginOptions, d
                 properties: {
                     system: { type: 'string' }
                 }
+            },
+            body: {
+                type: 'object',
+                properties: {
+                    id: { type: 'string' }
+                }
             }
         },
         handler: async (request: FastifyRequest, reply: FastifyReply) => {
             const { system } = request.headers
+            const { id } = request.body as { id: string }
             if (system === envs.API_KEY) {
                 reply.send({
                     token: jwt.sign({
-                        role: 'system'
+                        roles: ['system'],
+                        id: id
                     }, envs.JWT_SECRET)
                 })
             }
