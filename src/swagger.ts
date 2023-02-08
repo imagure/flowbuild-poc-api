@@ -19,7 +19,8 @@ export const swagger = async(fastify: FastifyInstance) => {
                 { name: 'Health', description: 'Health Check' },
                 { name: 'Auth', description: 'API system authentication' },
                 { name: 'Workflow', description: 'Workflow CRUD operations' },
-                { name: 'Process', description: 'Process related operations' }
+                { name: 'Process', description: 'Process related operations' },
+                { name: 'WebSocket', description: 'Process state responses' }
             ],
             definitions: {
                 Workflow: {

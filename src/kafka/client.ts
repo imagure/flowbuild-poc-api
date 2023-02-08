@@ -8,10 +8,14 @@ const kafka = new Kafka({
 })
 
 const producer = kafka.producer()
+const consumer = kafka.consumer({ groupId: 'client-websocket-consumer-group' })
 
 const connect = async () => {
   await producer.connect()
-  return { producer }
+  await consumer.connect()
+  await consumer.subscribe({ topic: 'process-states-topic', fromBeginning: true })
+
+  return { producer, consumer }
 }
 
 export {
