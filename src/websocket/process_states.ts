@@ -27,8 +27,11 @@ async function processSocket(consumer: Consumer) {
                 preHandler: fastify.auth([
                     verifyJWT
                 ]),
-                schema: { tags: ['WebSocket'] } 
-            }, 
+                schema: {
+                    security: [{ BearerToken: [] }],
+                    tags: ['WebSocket']
+                }
+            },
             (connection: SocketStream, request: IActorRequest) => {
                 const { actor } = request as IActorRequest
                 const { id: actor_id } = actor!!
