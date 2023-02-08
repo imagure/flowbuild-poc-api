@@ -1,6 +1,9 @@
+import { SocketStream } from "@fastify/websocket";
 import EventEmitter from "events"
 import { FastifyInstance } from "fastify"
 import { Consumer } from "kafkajs"
+import { verifyJWT } from "../auth/auth";
+import { IActorRequest } from "../types";
 
 const emitter = new EventEmitter();
 
@@ -18,23 +21,25 @@ async function processSocket(consumer: Consumer) {
     })
     return async (fastify: FastifyInstance) => {
         fastify.get(
-            '/process/:actor_id', 
+            '/process', 
             { 
-                websocket: true, 
+                websocket: true,
+                preHandler: fastify.auth([
+                    verifyJWT
+                ]),
                 schema: { tags: ['WebSocket'] } 
             }, 
-            (connection /* SocketStream */, req /* FastifyRequest */) => {
-            
-                const { params } = req
-                const { actor_id } = params as { actor_id: string }
+            (connection: SocketStream, request: IActorRequest) => {
+                const { actor } = request as IActorRequest
+                const { id: actor_id } = actor!!
                 
                 connection.socket.on('message', message => {
                     connection.socket.send(`${message} Message Received. Nothing will happen`)
                 })
 
                 connection.socket.on('close', message => {
-                    console.info("CONNECTION_CLOSED")
-                    emitter.removeListener(`process_state_${actor_id}`, ()=> {})
+                    emitter.removeAllListeners(`process_state_${actor_id}`)
+                    console.info(`CONNECTION_CLOSED on ACTOR ID: ${actor_id}`)
                 }) // Validate how necessecary that is
 
                 emitter.on(`process_state_${actor_id}`, (inputMessage) => {
