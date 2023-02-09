@@ -10,7 +10,7 @@ export type Node = {
     type: string,
     category: string,
     lane_id: string,
-    parameters: {[key: string]: string},
+    parameters: {[key: string]: any},
 }
 
 export type Blueprint = {
