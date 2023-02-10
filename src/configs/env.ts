@@ -13,7 +13,11 @@ const envs = {
 const auth = {
     // Pattern:
     // {
-    //     "<iss>": "<certs route>"
+    //     "<iss>": {
+    //         "certs": "<certs route>",
+    //         "roles": "<roles path on token payload>",
+    //         "actor_id": "<actor_id path on token payload>"
+    //     }
     // }
 
     // Expected TOKEN Pattern (based on Keycloak usage):
@@ -25,9 +29,13 @@ const auth = {
     //     }
     //     "actor_id": "<uuid>"
     // }
-    
+
     'RS-256-ISSUERS': JSON.parse(process.env.AUTH_ISSUERS || `{
-        "http://localhost:8080/auth/realms/flowbuild": "http://localhost:8080/auth/realms/flowbuild/protocol/openid-connect/certs"
+        "http://localhost:8080/auth/realms/flowbuild": { 
+            "certs": "http://localhost:8080/auth/realms/flowbuild/protocol/openid-connect/certs",
+            "roles": "resource_access.flowbuild-api.roles",
+            "actor_id": "actor_id"
+        }
     }`),
 }
 

@@ -1,8 +1,9 @@
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { FastifyReply } from "fastify"
-import { envs } from '../configs/env'
+import { auth, envs } from '../configs/env'
 import { IActorRequest, Actor } from '../types'
 import { getClient } from './jwksClients'
+import { getPropByPath } from '../utils'
 
 export const verifyJWT = async (request: IActorRequest, reply: FastifyReply, done: Function) => {
     const { headers } = request
@@ -41,22 +42,24 @@ export const verifyJWT = async (request: IActorRequest, reply: FastifyReply, don
                     algorithms: ['RS256'],
                 }) as JwtPayload
                 
-                const {
-                    actor_id,
-                    resource_access: {
-                        'flowbuild-api': {
-                            roles
-                        }
-                    }
-                } = payload
-                request.actor = { id: actor_id, roles } as Actor
-                return
+                const { 'RS-256-ISSUERS': rs256 } = auth
+                const { roles: rolesPath, actor_id: actorIdPath } = rs256[iss] as { [key: string]: string }
+
+                const roles = getPropByPath(payload, rolesPath)
+                const actor_id = getPropByPath(payload, actorIdPath)
+
+                if(roles && actor_id) {
+                    request.actor = { id: actor_id, roles } as Actor
+                    return
+                }
+                reply.code(401)
+                throw new Error('INVALID TOKEN: COULDNT FETCH ACTOR_ID AND/OR ROLES')
             } catch(err) {
                 reply.code(401)
                 throw new Error(`${err}`)
             }
         }
-        
+
         reply.code(401)
         throw new Error('INVALID TOKEN ALGORITHM OR TOKEN FORMAT')
     }

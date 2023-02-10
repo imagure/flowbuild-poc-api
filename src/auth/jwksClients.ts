@@ -5,7 +5,8 @@ import { auth } from '../configs/env'
 const getClient = (clientIss: string) => {
     const authorizedIssuers = auth['RS-256-ISSUERS']
     const clients = {} as {[key: string]: JwksRsa.JwksClient}
-    for (let [iss, certs] of Object.entries(authorizedIssuers)) {
+    for (let [iss, data] of Object.entries(authorizedIssuers)) {
+        const { certs } = data as { [key: string] : string }
         clients[iss] = jwksClient({
             jwksUri: `${certs}`,
             cache: true
