@@ -28,7 +28,7 @@ async function router(fastify: FastifyInstance, options: FastifyPluginOptions, d
                 reply.send({
                     token: jwt.sign({
                         roles: ['system'],
-                        id: id
+                        actor_id: id
                     }, envs.JWT_SECRET)
                 })
             }

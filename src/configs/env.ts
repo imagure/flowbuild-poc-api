@@ -9,6 +9,29 @@ const envs = {
     API_KEY: process.env.API_KEY || '287cb91nbx916bx19c12v619p',
     JWT_SECRET: process.env.JWT_KEY || '12345'
 }
+
+const auth = {
+    // Pattern:
+    // {
+    //     "<iss>": "<certs route>"
+    // }
+
+    // Expected TOKEN Pattern (based on Keycloak usage):
+    // {
+    //     "resource_access": {
+    //         "flowbuild-api": {
+    //             "roles": ["<role name>"]
+    //         }
+    //     }
+    //     "actor_id": "<uuid>"
+    // }
+    
+    'RS-256-ISSUERS': JSON.parse(process.env.AUTH_ISSUERS || `{
+        "http://localhost:8080/auth/realms/flowbuild": "http://localhost:8080/auth/realms/flowbuild/protocol/openid-connect/certs"
+    }`),
+}
+
 export {
-    envs
+    envs,
+    auth
 }
