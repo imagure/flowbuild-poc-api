@@ -4,10 +4,10 @@ import fastifyCors from '@fastify/cors'
 import fastifyAuth from '@fastify/auth'
 import fastifyRedis from '@fastify/redis'
 import fastifyWebsocket from '@fastify/websocket'
-import { envs } from './configs/env'
-import { wf as wf_router, pr as pr_router, auth as auth_router } from './routes'
-import { swagger } from './swagger'
-import { processSocket } from './websocket/process_states'
+import { envs } from '@configs/env'
+import { wf as wf_router, pr as pr_router, auth as auth_router } from '@routes'
+import { swagger } from '@swagger'
+import { processSocket } from '@websocket'
 
 const runServer = async () => {
   const fastify = Fastify({

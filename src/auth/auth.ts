@@ -1,9 +1,9 @@
-import jwt, { JwtPayload } from 'jsonwebtoken'
 import { FastifyReply } from 'fastify'
-import { auth, envs } from '../configs/env'
-import { IActorRequest, Actor } from '../types'
-import { getClient } from './jwksClients'
-import { getPropByPath } from '../utils'
+import jwt, { JwtPayload } from 'jsonwebtoken'
+import { getClient } from '@auth'
+import { auth, envs } from '@configs/env'
+import { getPropByPath } from '@utils'
+import { IActorRequest, Actor } from '@common-types'
 
 export const verifyJWT = async (
   request: IActorRequest,

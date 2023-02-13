@@ -1,6 +1,6 @@
 import JwksRsa from 'jwks-rsa'
 import jwksClient from 'jwks-rsa'
-import { auth } from '../configs/env'
+import { auth } from '@configs/env'
 
 const getClient = (clientIss: string) => {
   const authorizedIssuers = auth['RS-256-ISSUERS']

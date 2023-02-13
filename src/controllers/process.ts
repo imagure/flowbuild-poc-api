@@ -1,6 +1,6 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { Producer } from 'kafkajs'
-import { IActorRequest } from '../types'
+import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
+import { IActorRequest } from '@common-types'
 
 const controllers = (fastify: FastifyInstance, producer: Producer) => {
   const { redis } = fastify

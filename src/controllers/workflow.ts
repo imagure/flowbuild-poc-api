@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import { Node, Workflow } from '../types'
+import { Node, Workflow } from '@common-types'
 
 const controllers = (fastify: FastifyInstance) => {
   const { redis } = fastify

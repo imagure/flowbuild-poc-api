@@ -1,6 +1,6 @@
 import { Kafka } from 'kafkajs'
-import { envs } from '../configs/env'
 import { v4 as uuid } from 'uuid'
+import { envs } from '@configs/env'
 
 const kafka = new Kafka({
   clientId: `flowbuild-api-${uuid()}`,

@@ -1,9 +1,9 @@
-import { SocketStream } from '@fastify/websocket'
 import EventEmitter from 'events'
 import { FastifyInstance } from 'fastify'
+import { SocketStream } from '@fastify/websocket'
 import { Consumer, EachMessagePayload } from 'kafkajs'
-import { verifyJWT } from '../auth/auth'
-import { IActorRequest } from '../types'
+import { verifyJWT } from '@auth'
+import { IActorRequest } from '@common-types'
 
 const emitter = new EventEmitter()
 

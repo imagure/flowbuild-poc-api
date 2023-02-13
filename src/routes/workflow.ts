@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify'
-import { verifyJWT } from '../auth/auth'
-import { wf } from '../controllers'
+import { verifyJWT } from '@auth'
+import { wf } from '@controllers'
 
 async function router(
   fastify: FastifyInstance,

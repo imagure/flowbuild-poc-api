@@ -5,7 +5,7 @@ import {
   FastifyReply,
   FastifyRequest,
 } from 'fastify'
-import { envs } from '../configs/env'
+import { envs } from '@configs/env'
 
 async function router(
   fastify: FastifyInstance,
