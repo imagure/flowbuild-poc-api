@@ -4,7 +4,7 @@ API layer for flowbuild environment.
 # Run on your localhost:
 * Setup:
 ```
-pnpm run i
+pnpm i
 pnpm run prepare
 ```
 * Running:
