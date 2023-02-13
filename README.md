@@ -23,7 +23,7 @@ docker-compose up --build
 ```
 
 ## Load testing on JMETER:
-See ```./jmeter``` for a reference test flow.
+See ```./load``` for a reference test flow.
 
 To get application behavior, you might use climem (reference: https://www.npmjs.com/package/climem)
 
