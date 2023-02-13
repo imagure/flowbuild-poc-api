@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import { FastifyInstance, FastifyPluginOptions, FastifyReply, FastifyRequest } from 'fastify'
 import { envs } from '../configs/env'
 
-async function router(fastify: FastifyInstance, options: FastifyPluginOptions, done: Function) {
+async function router(fastify: FastifyInstance, _options: FastifyPluginOptions, done: ((err?: Error) => void)) {
     fastify.route({
         method: 'POST',
         url: '/token',

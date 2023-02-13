@@ -4,7 +4,7 @@ import {
     pr
 } from '../controllers'
 
-async function router(fastify: FastifyInstance, options: FastifyPluginOptions, done: Function) {
+async function router(fastify: FastifyInstance, options: FastifyPluginOptions, _done: ((err?: Error) => void)) {
     const { producer } = options
 
     const { 

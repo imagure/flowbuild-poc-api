@@ -10,6 +10,7 @@ export type Node = {
     type: string,
     category: string,
     lane_id: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     parameters: {[key: string]: any},
 }
 

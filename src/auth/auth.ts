@@ -5,7 +5,7 @@ import { IActorRequest, Actor } from '../types'
 import { getClient } from './jwksClients'
 import { getPropByPath } from '../utils'
 
-export const verifyJWT = async (request: IActorRequest, reply: FastifyReply, done: Function) => {
+export const verifyJWT = async (request: IActorRequest, reply: FastifyReply, _done: ((err?: Error) => void)) => {
     const { headers } = request
     const { authorization } = headers as  { authorization: string } 
     

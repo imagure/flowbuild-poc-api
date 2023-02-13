@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getPropByPath = (source: { [key: string] : any }, path: string | Array<any>) : any => {
     const _path = Array.isArray(path)
         ? path

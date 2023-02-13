@@ -4,7 +4,7 @@ import {
     wf
 } from '../controllers'
 
-async function router(fastify: FastifyInstance, options: FastifyPluginOptions, done: Function) {
+async function router(fastify: FastifyInstance, _options: FastifyPluginOptions, _done: ((err?: Error) => void)) {
     const { 
         read, 
         create, 
