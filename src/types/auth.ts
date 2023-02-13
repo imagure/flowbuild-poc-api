@@ -1,11 +1,11 @@
-import { FastifyRequest } from "fastify";
+import { FastifyRequest } from 'fastify'
 
 export interface Actor {
-    id: 'string',
-    roles: Array<string>,
-    iat: number
+  id: 'string'
+  roles: Array<string>
+  iat: number
 }
 
 export interface IActorRequest extends FastifyRequest {
-    actor?: Actor
+  actor?: Actor
 }

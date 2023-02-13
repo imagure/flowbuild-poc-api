@@ -1,5 +1,3 @@
-import { getPropByPath } from "./get";
+import { getPropByPath } from './get'
 
-export {
-    getPropByPath
-}
+export { getPropByPath }
