@@ -8,7 +8,8 @@
     "lint": "eslint . --ext .ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(ts)\"",
     "test": "echo \"Warning: no test specified\" && exit 0",
-    "start": "node ./dist/app"
+    "start": "node ./dist/app",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -41,7 +42,7 @@
     "@typescript-eslint/parser": "^5.51.0",
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
-    "husky": "^8.0.3",
+    "husky": "^8.0.0",
     "prettier": "^2.8.4",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
