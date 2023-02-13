@@ -14,12 +14,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "husky": {
-    "hooks": {
-      "pre-commit": "pnpm run format && pnpm run lint",
-      "pre-push": "pnpm run test"
-    }
-  },
   "dependencies": {
     "@fastify/auth": "^4.2.0",
     "@fastify/cors": "^8.2.0",
