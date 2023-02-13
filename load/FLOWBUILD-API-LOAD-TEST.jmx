@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.5">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <OpenModelThreadGroup guiclass="OpenModelThreadGroupGui" testclass="OpenModelThreadGroup" testname="Open Model Thread Group" enabled="false">
+        <elementProp name="ThreadGroup.main_controller" elementType="OpenModelThreadGroupController"/>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="OpenModelThreadGroup.schedule">rate(1/min) random_arrivals(10 min) rate(1/min) pause(1 min) /* comment */ rate(1/min) rate(1/min)</stringProp>
+        <stringProp name="OpenModelThreadGroup.random_seed"></stringProp>
+      </OpenModelThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SYSTEM-AUTH" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;id&quot;: &quot;ANY-SYSTEM-IDENTIFIER-276df3&quot;&#xd;
+}&#xd;
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">3000</stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/auth/token</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultAction guiclass="ResultActionGui" testclass="ResultAction" testname="Result Status Action Handler" enabled="true">
+          <intProp name="OnError.action">0</intProp>
+        </ResultAction>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="TEST PARENT-CHILD" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1000</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">60</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="flowbuild-api" elementType="Argument">
+              <stringProp name="Argument.name">flowbuild-api</stringProp>
+              <stringProp name="Argument.value">localhost</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+          </collectionProp>
+        </Arguments>
+        <hashTree/>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="SETUP - Only Once" enabled="true"/>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="SYSTEM-AUTH" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;id&quot;: &quot;ANY-SYSTEM-IDENTIFIER-276df3&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${flowbuild-api}</stringProp>
+            <stringProp name="HTTPSampler.port">3000</stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/auth/token</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">content-type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Accept</stringProp>
+                  <stringProp name="Header.value">*/*</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">system</stringProp>
+                  <stringProp name="Header.value">287cb91nbx916bx19c12v619p</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract System Token" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">system-token</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.token</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="READ-WORKFLOW" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;id&quot;: &quot;ANY-SYSTEM-IDENTIFIER-276df3&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${flowbuild-api}</stringProp>
+            <stringProp name="HTTPSampler.port">3000</stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/workflow/PARENT</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">content-type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Accept</stringProp>
+                  <stringProp name="Header.value">*/*</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">authorization</stringProp>
+                  <stringProp name="Header.value">Bearer ${system-token}</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="CREATE-PARENT-WORKFLOW" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;name&quot;: &quot;PARENT&quot;,&#xd;
+  &quot;description&quot;: &quot;Workflow to test a node&quot;,&#xd;
+  &quot;blueprint_spec&quot;: {&#xd;
+    &quot;nodes&quot;: [&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;START-TEST&quot;,&#xd;
+        &quot;name&quot;: &quot;Iniciar teste&quot;,&#xd;
+        &quot;next&quot;: &quot;EVENT-TRIGGER&quot;,&#xd;
+        &quot;type&quot;: &quot;start&quot;,&#xd;
+        &quot;lane_id&quot;: &quot;SYSTEM&quot;,&#xd;
+        &quot;parameters&quot;: {&#xd;
+          &quot;input_schema&quot;: {}&#xd;
+        },&#xd;
+        &quot;nodeSpec&quot;: &quot;startTest&quot;&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;EVENT-TRIGGER&quot;,&#xd;
+        &quot;name&quot;: &quot;SystemTimer&quot;,&#xd;
+        &quot;next&quot;: &quot;EVENT-TARGET&quot;,&#xd;
+        &quot;type&quot;: &quot;SystemTask&quot;,&#xd;
+        &quot;category&quot;: &quot;event&quot;,&#xd;
+        &quot;lane_id&quot;: &quot;SYSTEM&quot;,&#xd;
+        &quot;parameters&quot;: {&#xd;
+            &quot;input&quot;: {},&#xd;
+            &quot;events&quot;: [&#xd;
+                {&#xd;
+                    &quot;category&quot;: &quot;signal&quot;,&#xd;
+                    &quot;family&quot;: &quot;trigger&quot;,&#xd;
+                    &quot;definition&quot;: &quot;SIGNAL_GO&quot;&#xd;
+                }&#xd;
+            ]&#xd;
+        }&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;EVENT-TARGET&quot;,&#xd;
+        &quot;name&quot;: &quot;SystemTimer&quot;,&#xd;
+        &quot;next&quot;: &quot;USERTASK&quot;,&#xd;
+        &quot;type&quot;: &quot;SystemTask&quot;,&#xd;
+        &quot;category&quot;: &quot;event&quot;,&#xd;
+        &quot;lane_id&quot;: &quot;SYSTEM&quot;,&#xd;
+        &quot;extract&quot;: [&quot;external_input.http_response_data&quot;],&#xd;
+        &quot;parameters&quot;: {&#xd;
+            &quot;input&quot;: {},&#xd;
+            &quot;events&quot;: [&#xd;
+                {&#xd;
+                    &quot;category&quot;: &quot;signal&quot;,&#xd;
+                    &quot;family&quot;: &quot;target&quot;,&#xd;
+                    &quot;definition&quot;: &quot;SIGNAL_BACK&quot;&#xd;
+                }&#xd;
+            ]&#xd;
+        }&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;USERTASK&quot;,&#xd;
+        &quot;name&quot;: &quot;User Task&quot;,&#xd;
+        &quot;next&quot;: &quot;FINISH-PROCESS&quot;,&#xd;
+        &quot;type&quot;: &quot;UserTask&quot;,&#xd;
+        &quot;lane_id&quot;: &quot;SYSTEM&quot;,&#xd;
+        &quot;parameters&quot;: {&#xd;
+            &quot;input&quot;: {&#xd;
+                &quot;anyKey&quot;: &quot;anyValue&quot;&#xd;
+            },&#xd;
+            &quot;action&quot;: &quot;TEST_ACTION&quot;&#xd;
+        }&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;FINISH-PROCESS&quot;,&#xd;
+        &quot;name&quot;: &quot;Finaliza teste&quot;,&#xd;
+        &quot;next&quot;: null,&#xd;
+        &quot;type&quot;: &quot;Finish&quot;,&#xd;
+        &quot;lane_id&quot;: &quot;SYSTEM&quot;,&#xd;
+        &quot;parameters&quot;: {},&#xd;
+        &quot;nodeSpec&quot;: &quot;endTest&quot;&#xd;
+      }&#xd;
+    ],&#xd;
+    &quot;lanes&quot;: [&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;SYSTEM&quot;,&#xd;
+        &quot;roles&quot;: [&quot;system&quot;, &quot;ACTOR_COMMON&quot;] &#xd;
+      },&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;RESTRICT&quot;,&#xd;
+        &quot;roles&quot;: [&quot;admin&quot;] &#xd;
+      }&#xd;
+    ],&#xd;
+    &quot;environment&quot;: {}&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${flowbuild-api}</stringProp>
+            <stringProp name="HTTPSampler.port">3000</stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/workflow/create</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">content-type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Accept</stringProp>
+                  <stringProp name="Header.value">*/*</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">authorization</stringProp>
+                  <stringProp name="Header.value">Bearer ${system-token}</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="CREATE-CHILD-WORKFLOW" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+  &quot;name&quot;: &quot;CHILD&quot;,&#xd;
+  &quot;description&quot;: &quot;Workflow to test a node&quot;,&#xd;
+  &quot;blueprint_spec&quot;: {&#xd;
+    &quot;nodes&quot;: [&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;START-TEST&quot;,&#xd;
+        &quot;name&quot;: &quot;Iniciar teste&quot;,&#xd;
+        &quot;next&quot;: &quot;TIMER&quot;,&#xd;
+        &quot;type&quot;: &quot;start&quot;,&#xd;
+        &quot;category&quot;: &quot;event&quot;,&#xd;
+        &quot;lane_id&quot;: &quot;SYSTEM&quot;,&#xd;
+        &quot;parameters&quot;: {&#xd;
+          &quot;input_schema&quot;: {},&#xd;
+          &quot;events&quot;: [&#xd;
+                {&#xd;
+                    &quot;category&quot;: &quot;signal&quot;,&#xd;
+                    &quot;family&quot;: &quot;target&quot;,&#xd;
+                    &quot;definition&quot;: &quot;SIGNAL_GO&quot;&#xd;
+                }&#xd;
+            ]&#xd;
+        },&#xd;
+        &quot;nodeSpec&quot;: &quot;startTest&quot;&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;TIMER&quot;,&#xd;
+        &quot;name&quot;: &quot;SystemTimer&quot;,&#xd;
+        &quot;next&quot;: &quot;HTTP-REQUEST&quot;,&#xd;
+        &quot;category&quot;: &quot;timer&quot;,&#xd;
+        &quot;type&quot;: &quot;SystemTask&quot;,&#xd;
+        &quot;lane_id&quot;: &quot;SYSTEM&quot;,&#xd;
+        &quot;parameters&quot;: {&#xd;
+            &quot;timeout&quot;: 5000,&#xd;
+            &quot;input&quot;: {}&#xd;
+        }&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;HTTP-REQUEST&quot;,&#xd;
+        &quot;name&quot;: &quot;HTTP Test&quot;,&#xd;
+        &quot;next&quot;: &quot;EVENT&quot;,&#xd;
+        &quot;type&quot;: &quot;SystemTask&quot;,&#xd;
+        &quot;lane_id&quot;: &quot;SYSTEM&quot;,&#xd;
+        &quot;category&quot;: &quot;http&quot;,&#xd;
+        &quot;extract&quot;: [&quot;result.status&quot;, &quot;result.data&quot;],&#xd;
+        &quot;parameters&quot;: {&#xd;
+          &quot;input&quot;: {},&#xd;
+          &quot;request&quot;: {&#xd;
+            &quot;url&quot;: &quot;https://postman-echo.com/status/200&quot;,&#xd;
+            &quot;verb&quot;: &quot;GET&quot;,&#xd;
+            &quot;max_content_length&quot;: 100000&#xd;
+          },&#xd;
+          &quot;valid_response_codes&quot;: [&#xd;
+            200,&#xd;
+            202,&#xd;
+            204&#xd;
+          ]&#xd;
+        }&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;EVENT&quot;,&#xd;
+        &quot;name&quot;: &quot;SystemTimer&quot;,&#xd;
+        &quot;next&quot;: &quot;FINISH-PROCESS&quot;,&#xd;
+        &quot;type&quot;: &quot;SystemTask&quot;,&#xd;
+        &quot;category&quot;: &quot;event&quot;,&#xd;
+        &quot;lane_id&quot;: &quot;SYSTEM&quot;,&#xd;
+        &quot;parameters&quot;: {&#xd;
+            &quot;input&quot;: {&#xd;
+                &quot;http_response_data&quot;: { &quot;$ref&quot;: &quot;bag.HTTP-REQUEST.result.data&quot; }&#xd;
+            },&#xd;
+            &quot;events&quot;: [&#xd;
+                {&#xd;
+                    &quot;category&quot;: &quot;signal&quot;,&#xd;
+                    &quot;family&quot;: &quot;trigger&quot;,&#xd;
+                    &quot;definition&quot;: &quot;SIGNAL_BACK&quot;&#xd;
+                }&#xd;
+            ]&#xd;
+        }&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;FINISH-PROCESS&quot;,&#xd;
+        &quot;name&quot;: &quot;Finaliza teste&quot;,&#xd;
+        &quot;next&quot;: null,&#xd;
+        &quot;type&quot;: &quot;Finish&quot;,&#xd;
+        &quot;lane_id&quot;: &quot;SYSTEM&quot;,&#xd;
+        &quot;parameters&quot;: {},&#xd;
+        &quot;nodeSpec&quot;: &quot;endTest&quot;&#xd;
+      }&#xd;
+    ],&#xd;
+    &quot;lanes&quot;: [&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;SYSTEM&quot;,&#xd;
+        &quot;roles&quot;: [&quot;system&quot;, &quot;ACTOR_COMMON&quot;] &#xd;
+      },&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;RESTRICT&quot;,&#xd;
+        &quot;roles&quot;: [&quot;admin&quot;] &#xd;
+      }&#xd;
+    ],&#xd;
+    &quot;environment&quot;: {}&#xd;
+  }&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${flowbuild-api}</stringProp>
+            <stringProp name="HTTPSampler.port">3000</stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/workflow/create</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">content-type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Accept</stringProp>
+                  <stringProp name="Header.value">*/*</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">authorization</stringProp>
+                  <stringProp name="Header.value">Bearer ${system-token}</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="START-PARENT-WORKFLOW" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${flowbuild-api}</stringProp>
+          <stringProp name="HTTPSampler.port">3000</stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/process/start/PARENT</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">*/*</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">authorization</stringProp>
+                <stringProp name="Header.value">Bearer ${system-token}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
