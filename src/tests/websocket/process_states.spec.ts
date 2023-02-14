@@ -1,4 +1,4 @@
-import { processStateEmitter } from '@websocket/emitters/process_state'
+import { eventEmiter } from '@websocket/emitters'
 import { EachMessagePayload } from 'kafkajs'
 import { emitter } from '@websocket/tools/emitter'
 import { processState } from '@websocket/listeners/process_state'
@@ -34,7 +34,7 @@ describe('Emitter', () => {
   it('should emit message received on eachMessage', async () => {
     const value = '{"actor_id":"TEST_ACTOR_ID"}'
     const parsedValue = JSON.parse(value)
-    await processStateEmitter({
+    await eventEmiter({
       message: { value },
     } as unknown as EachMessagePayload)
     expect(emitter.emit).toHaveBeenCalledTimes(1)
@@ -46,7 +46,7 @@ describe('Emitter', () => {
 
   it('should not emit invalid message', async () => {
     const value = 'not a JSON'
-    await processStateEmitter({
+    await eventEmiter({
       message: { value },
     } as unknown as EachMessagePayload)
     expect(emitter.emit).toHaveBeenCalledTimes(0)

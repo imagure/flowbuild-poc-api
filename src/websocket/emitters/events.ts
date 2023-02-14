@@ -1,9 +1,7 @@
 import { EachMessagePayload } from 'kafkajs'
 import { emitter } from '@websocket/tools/emitter'
 
-const processStateEmitter = async ({
-  message,
-}: EachMessagePayload): Promise<void> => {
+const eventEmiter = async ({ message }: EachMessagePayload): Promise<void> => {
   const receivedMessage = message.value?.toString() || ''
   try {
     const inputMessage = JSON.parse(receivedMessage)
@@ -13,4 +11,4 @@ const processStateEmitter = async ({
   }
 }
 
-export { processStateEmitter }
+export { eventEmiter }
