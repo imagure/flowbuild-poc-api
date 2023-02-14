@@ -6,14 +6,22 @@ jest.mock('@swagger', () => {
 
 jest.mock('@kafka', () => {
   return {
-    connect: () => {
+    connect: async () => {
       return {
         consumer: {
           run: () => { },
         },
-        producer: {},
+        producer: {
+          send: jest.fn(() => { })
+        },
       }
     },
+  }
+})
+
+jest.mock('@fastify/redis', () => {
+  return (_f, _o, done) => {
+    done()
   }
 })
 

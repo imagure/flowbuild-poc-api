@@ -35,6 +35,9 @@
       ],
       "@websocket": [
         "./src/websocket"
+      ],
+      "@websocket/*": [
+        "./src/websocket/*"
       ]
     },
     "types": [
