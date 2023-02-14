@@ -19,8 +19,10 @@ const controllers = (fastify: FastifyInstance, producer: Producer) => {
           topic: 'orchestrator-start-process-topic',
           messages: [{ value: message }],
         })
+        reply.code(201)
         reply.send('OK')
       }
+      reply.code(400)
       reply.send('NOK')
     },
     continue_: async (request: FastifyRequest, reply: FastifyReply) => {
@@ -38,8 +40,10 @@ const controllers = (fastify: FastifyInstance, producer: Producer) => {
           topic: 'orchestrator-continue-process-topic',
           messages: [{ value: message }],
         })
+        reply.code(200)
         reply.send('OK')
       }
+      reply.code(400)
       reply.send('NOK')
     },
   }

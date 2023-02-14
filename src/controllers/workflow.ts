@@ -7,6 +7,7 @@ const controllers = (fastify: FastifyInstance) => {
     read: async (request: FastifyRequest, reply: FastifyReply) => {
       const { name: workflow_name } = request.params as { name: string }
       const data = await redis.get(`workflows:${workflow_name}`)
+      reply.code(200)
       reply.send(JSON.parse(data || '{}'))
     },
     create: async (request: FastifyRequest, reply: FastifyReply) => {
@@ -33,11 +34,13 @@ const controllers = (fastify: FastifyInstance) => {
         `workflows:${body.name}`,
         JSON.stringify(body)
       )
+      reply.code(201)
       reply.send(response)
     },
     delete: async (request: FastifyRequest, reply: FastifyReply) => {
       const { name: workflow_name } = request.params as { name: string }
       const response = await redis.del(`workflows:${workflow_name}`)
+      reply.code(204)
       reply.send(response)
     },
   }
