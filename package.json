@@ -8,6 +8,7 @@
     "lint": "eslint . --ext .ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(ts)\"",
     "test": "jest",
+    "test:cov": "pnpm run test --coverage",
     "start": "node -r tsconfig-paths/register ./dist/src/server",
     "start:dev": "ts-node -r tsconfig-paths/register ./src/server.ts",
     "prepare": "husky install"
