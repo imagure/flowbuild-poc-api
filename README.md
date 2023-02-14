@@ -1,4 +1,9 @@
 # Flowbuild API
+![Coverage lines](./coverage/badge-lines.svg)
+![Coverage branches](./coverage/badge-branches.svg)
+![Coverage functions](./coverage/badge-functions.svg)
+![Coverage statements](./coverage/badge-statements.svg)
+
 API layer for flowbuild environment.
 
 # Run on your localhost:
@@ -20,6 +25,14 @@ pnpm run start
 ## Run REDIS and KEYCLOAK through docker-compose file:
 ```
 docker-compose up --build
+```
+
+## Unit tests:
+The test scripts are:
+```
+pnpm run test
+pnpm run test:cov
+pnpm run test:badges
 ```
 
 ## Load testing on JMETER:
