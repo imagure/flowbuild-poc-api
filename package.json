@@ -7,7 +7,7 @@
     "build": "tsc && tsc-alias -p tsconfig.json",
     "lint": "eslint . --ext .ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(ts)\"",
-    "test": "echo \"Warning: no test specified\" && exit 0",
+    "test": "jest",
     "start": "node -r tsconfig-paths/register ./dist/src/server",
     "start:dev": "ts-node -r tsconfig-paths/register ./src/server.ts",
     "prepare": "husky install"
@@ -31,6 +31,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.4.3",
     "@commitlint/config-conventional": "^17.4.3",
+    "@types/jest": "^29.4.0",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "^18.11.18",
     "@types/uuid": "^9.0.0",
@@ -40,7 +41,9 @@
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "husky": "^8.0.0",
+    "jest": "^29.4.2",
     "prettier": "^2.8.4",
+    "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.8.2",
     "tsconfig-paths": "^4.1.2",
