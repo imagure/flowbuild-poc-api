@@ -9,5 +9,5 @@ module.exports = {
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
-  setupFiles: ['<rootDir>/.jest/setEnvVars.js']
+  setupFiles: ['<rootDir>/.jest/setEnvVars.js', '<rootDir>/.jest/setMocks.js']
 }
