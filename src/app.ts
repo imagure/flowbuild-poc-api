@@ -1,5 +1,5 @@
 import Fastify, { FastifyServerOptions } from 'fastify'
-import { connect } from './kafka'
+import { connect } from '@kafka'
 import fastifyCors from '@fastify/cors'
 import fastifyAuth from '@fastify/auth'
 import fastifyRedis from '@fastify/redis'
