@@ -33,7 +33,9 @@ async function router(
     handler: async (request: FastifyRequest, reply: FastifyReply) => {
       const { system } = request.headers
       const { id } = request.body as { id: string }
-      if (system === envs.API_KEY) {
+      if (id && system === envs.API_KEY) {
+        //refactor to a better condition later maybe...
+        reply.code(201)
         reply.send({
           token: jwt.sign(
             {
