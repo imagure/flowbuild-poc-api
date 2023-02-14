@@ -9,16 +9,6 @@ import {
 import { app } from '@src/app'
 import { verifyJWT } from '@auth'
 
-jest.mock('@fastify/redis', () => {
-  return (
-    _f: FastifyInstance,
-    _o: FastifyPluginOptions,
-    done: (err?: Error) => void
-  ) => {
-    done()
-  }
-})
-
 const readMock = jest.fn((_request: FastifyRequest, reply: FastifyReply) => {
   reply.send('OK')
 })

@@ -3,16 +3,6 @@
 import { FastifyInstance, FastifyPluginOptions } from 'fastify'
 import { app } from '@src/app'
 
-jest.mock('@fastify/redis', () => {
-  return (
-    _f: FastifyInstance,
-    _o: FastifyPluginOptions,
-    done: (err?: Error) => void
-  ) => {
-    done()
-  }
-})
-
 let server: FastifyInstance
 const PORT = 3001
 beforeAll(async () => {

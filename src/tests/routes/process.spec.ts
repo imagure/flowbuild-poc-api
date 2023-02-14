@@ -1,23 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
-import {
-  FastifyInstance,
-  FastifyPluginOptions,
-  FastifyReply,
-  FastifyRequest,
-} from 'fastify'
+import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { app } from '@src/app'
 import { verifyJWT } from '@auth'
-
-jest.mock('@fastify/redis', () => {
-  return (
-    _f: FastifyInstance,
-    _o: FastifyPluginOptions,
-    done: (err?: Error) => void
-  ) => {
-    done()
-  }
-})
 
 const startMock = jest.fn((_request: FastifyRequest, reply: FastifyReply) => {
   reply.send('OK')
