@@ -59,8 +59,8 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">100</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">60</stringProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">300</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -237,7 +237,7 @@
             <stringProp name="dataFile"></stringProp>
           </eu.luminis.jmeter.wssampler.SingleWriteWebSocketSampler>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="CREATE-PARENT-WORKFLOW" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="CREATE-PARENT-WORKFLOW" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -369,7 +369,7 @@
             </HeaderManager>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="CREATE-CHILD-WORKFLOW" enabled="false">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="CREATE-CHILD-WORKFLOW" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -402,13 +402,35 @@
       {&#xd;
         &quot;id&quot;: &quot;TIMER&quot;,&#xd;
         &quot;name&quot;: &quot;SystemTimer&quot;,&#xd;
-        &quot;next&quot;: &quot;SystemTimer&quot;,&#xd;
+        &quot;next&quot;: &quot;HTTP-REQUEST&quot;,&#xd;
         &quot;category&quot;: &quot;timer&quot;,&#xd;
         &quot;type&quot;: &quot;SystemTask&quot;,&#xd;
         &quot;lane_id&quot;: &quot;SYSTEM&quot;,&#xd;
         &quot;parameters&quot;: {&#xd;
             &quot;timeout&quot;: 5000,&#xd;
             &quot;input&quot;: {}&#xd;
+        }&#xd;
+      },&#xd;
+      {&#xd;
+        &quot;id&quot;: &quot;HTTP-REQUEST&quot;,&#xd;
+        &quot;name&quot;: &quot;HTTP Test&quot;,&#xd;
+        &quot;next&quot;: &quot;EVENT&quot;,&#xd;
+        &quot;type&quot;: &quot;SystemTask&quot;,&#xd;
+        &quot;lane_id&quot;: &quot;SYSTEM&quot;,&#xd;
+        &quot;category&quot;: &quot;http&quot;,&#xd;
+        &quot;extract&quot;: [&quot;result.status&quot;, &quot;result.data&quot;],&#xd;
+        &quot;parameters&quot;: {&#xd;
+          &quot;input&quot;: {},&#xd;
+          &quot;request&quot;: {&#xd;
+            &quot;url&quot;: &quot;http://0.0.0.0:3000/health&quot;,&#xd;
+            &quot;verb&quot;: &quot;GET&quot;,&#xd;
+            &quot;max_content_length&quot;: 100000&#xd;
+          },&#xd;
+          &quot;valid_response_codes&quot;: [&#xd;
+            200,&#xd;
+            202,&#xd;
+            204&#xd;
+          ]&#xd;
         }&#xd;
       },&#xd;
       {&#xd;
