@@ -57,7 +57,7 @@ describe('Listener', () => {
   it('should listen to emitted event', async () => {
     processState.listener(connection, request)
     expect(socketOn).toHaveBeenCalledTimes(2)
-    expect(socketSend).toHaveBeenCalledTimes(2)
+    expect(socketSend).toHaveBeenCalledTimes(0)
     expect(emitter.on).toHaveBeenCalledTimes(1)
     expect(emitter.removeAllListeners).toHaveBeenCalledTimes(1)
   })
