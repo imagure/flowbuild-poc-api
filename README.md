@@ -37,10 +37,11 @@ pnpm run test:badges
 
 ## Load testing on JMETER:
 See ```./load``` for a reference test flow.
+To execute it, you'll need a WS plugin for jmeter(reference: https://www.blazemeter.com/blog/jmeter-websocket-samplers)
 
 To get application behavior, you might use climem (reference: https://www.npmjs.com/package/climem)
 
-There's a script already set up. Just run:
+There's a script already set up to use CLIMEM. Just run:
 ```
 pnpm run start:climem
 ```
