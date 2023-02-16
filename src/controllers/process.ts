@@ -19,7 +19,7 @@ const controllers = (fastify: FastifyInstance, producer: Producer) => {
           topic: 'orchestrator-start-process-topic',
           messages: [{ value: message }],
         })
-        reply.code(201)
+        reply.code(202)
         reply.send('OK')
       }
       reply.code(400)

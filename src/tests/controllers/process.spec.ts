@@ -70,7 +70,7 @@ it('should run START Process', async () => {
     ],
   })
 
-  expect(reply.code).toHaveBeenCalledWith(201)
+  expect(reply.code).toHaveBeenCalledWith(202)
   expect(reply.send).toHaveBeenCalledWith('OK')
 })
 
