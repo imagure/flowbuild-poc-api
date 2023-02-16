@@ -40,10 +40,9 @@ See ```./load``` for a reference test flow.
 
 To get application behavior, you might use climem (reference: https://www.npmjs.com/package/climem)
 
-It's a quick setup:
+There's a script already set up. Just run:
 ```
-pnpm i climem -D
-export CLIMEM=8999 && ts-node -r climem -r tsconfig-paths/register ./src/app.ts
+pnpm run start:climem
 ```
 
 To see memory usage:
