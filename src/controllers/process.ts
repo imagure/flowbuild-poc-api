@@ -1,4 +1,5 @@
 import { Producer } from 'kafkajs'
+import { v4 as uuid } from 'uuid'
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { IActorRequest } from '@common-types'
 
@@ -10,9 +11,11 @@ const controllers = (fastify: FastifyInstance, producer: Producer) => {
       const { body, actor } = request as IActorRequest
       const data = await redis.get(`workflows:${workflow_name}`)
       if (data) {
+        const pid = uuid()
         const message = JSON.stringify({
           input: body,
-          workflow_name,
+          workflow: JSON.parse(data),
+          process_id: pid,
           actor,
         })
         await producer.send({
@@ -20,7 +23,10 @@ const controllers = (fastify: FastifyInstance, producer: Producer) => {
           messages: [{ value: message }],
         })
         reply.code(202)
-        reply.send('OK')
+        reply.send({
+          workflow_name,
+          process_id: pid,
+        })
       }
       reply.code(400)
       reply.send('NOK')
@@ -29,10 +35,18 @@ const controllers = (fastify: FastifyInstance, producer: Producer) => {
       const { process_id } = request.params as { process_id: string }
       const { body, actor } = request as IActorRequest
       const data = await redis.get(`process_history:${process_id}`)
+
+      let workflow
       if (data) {
+        const workflow_name = JSON.parse(data || '{}').workflow_name
+        workflow = await redis.get(`workflows:${workflow_name}`)
+      }
+
+      if (data && workflow) {
+        const parsedWorkflow = JSON.parse(workflow)
         const message = JSON.stringify({
           input: body,
-          workflow_name: JSON.parse(data).workflow_name,
+          workflow: parsedWorkflow,
           process_id,
           actor,
         })
@@ -41,7 +55,10 @@ const controllers = (fastify: FastifyInstance, producer: Producer) => {
           messages: [{ value: message }],
         })
         reply.code(200)
-        reply.send('OK')
+        reply.send({
+          workflow_name: parsedWorkflow.name,
+          process_id,
+        })
       }
       reply.code(400)
       reply.send('NOK')

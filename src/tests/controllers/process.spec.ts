@@ -42,7 +42,7 @@ beforeEach(async () => {
 })
 
 it('should run START Process', async () => {
-  const testWorkflow = { testKey: 'testValue' }
+  const testWorkflow = { name: 'TEST_WORKFLOW' }
   mockRedis.set('workflows:TEST_WORKFLOW', JSON.stringify(testWorkflow))
   const request = {
     params: {
@@ -57,21 +57,13 @@ it('should run START Process', async () => {
   expect(mockRedis.get).toHaveBeenCalledWith('workflows:TEST_WORKFLOW')
 
   expect(producer.send).toHaveBeenCalledTimes(1)
-  expect(producer.send).toHaveBeenCalledWith({
-    topic: 'orchestrator-start-process-topic',
-    messages: [
-      {
-        value: JSON.stringify({
-          input: {},
-          workflow_name: 'TEST_WORKFLOW',
-          actor: { id: 'TEST_ACTOR_ID' },
-        }),
-      },
-    ],
-  })
 
   expect(reply.code).toHaveBeenCalledWith(202)
-  expect(reply.send).toHaveBeenCalledWith('OK')
+  expect(reply.send).toHaveBeenCalledWith(
+    expect.objectContaining({
+      workflow_name: testWorkflow.name,
+    })
+  )
 })
 
 it('should FAIL to START Process', async () => {
@@ -96,6 +88,9 @@ it('should FAIL to START Process', async () => {
 it('should run CONTINUE Process', async () => {
   const testProcess = { workflow_name: 'TEST_WORKFLOW' }
   mockRedis.set('process_history:TEST_PROCESS_ID', JSON.stringify(testProcess))
+  const testWorkflow = { name: 'TEST_WORKFLOW' }
+  mockRedis.set('workflows:TEST_WORKFLOW', JSON.stringify(testWorkflow))
+
   const request = {
     params: {
       process_id: 'TEST_PROCESS_ID',
@@ -105,26 +100,33 @@ it('should run CONTINUE Process', async () => {
   }
   await continue_(request, reply)
 
-  expect(mockRedis.get).toHaveBeenCalledTimes(1)
+  expect(mockRedis.get).toHaveBeenCalledTimes(2)
   expect(mockRedis.get).toHaveBeenCalledWith('process_history:TEST_PROCESS_ID')
+  expect(mockRedis.get).toHaveBeenCalledWith('workflows:TEST_WORKFLOW')
 
   expect(producer.send).toHaveBeenCalledTimes(1)
-  expect(producer.send).toHaveBeenCalledWith({
-    topic: 'orchestrator-continue-process-topic',
-    messages: [
-      {
-        value: JSON.stringify({
-          input: {},
-          workflow_name: 'TEST_WORKFLOW',
-          process_id: 'TEST_PROCESS_ID',
-          actor: { id: 'TEST_ACTOR_ID' },
-        }),
-      },
-    ],
-  })
+  expect(producer.send).toHaveBeenCalledWith(
+    expect.objectContaining({
+      topic: 'orchestrator-continue-process-topic',
+      messages: [
+        {
+          value: JSON.stringify({
+            input: {},
+            workflow: { name: 'TEST_WORKFLOW' },
+            process_id: 'TEST_PROCESS_ID',
+            actor: { id: 'TEST_ACTOR_ID' },
+          }),
+        },
+      ],
+    })
+  )
 
   expect(reply.code).toHaveBeenCalledWith(200)
-  expect(reply.send).toHaveBeenCalledWith('OK')
+  expect(reply.send).toHaveBeenCalledWith(
+    expect.objectContaining({
+      workflow_name: testProcess.workflow_name,
+    })
+  )
 })
 
 it('should FAIL to CONTNUE Process', async () => {
